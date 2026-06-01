@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<!--
+  ================================================================
+  VAYRIN EYE GEAR — About Us Page (about.html)
+  ================================================================
+  DEVELOPER NOTES:
+  • Update team member names, roles and photos in the "Our Team" section.
+  • Update the "আমাদের যাত্রা" (Our Journey) section with real brand history.
+  • Replace placeholder stats with actual data.
+  • The mission/vision cards can be edited inline.
+  ================================================================
+-->
+<html lang="bn" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>আমাদের সম্পর্কে — Vayrin Eye Gear | Bangladesh's Premium Eyewear Brand</title>
+  <meta name="description" content="Vayrin Eye Gear সম্পর্কে জানুন — আমাদের লক্ষ্য, ইতিহাস ও প্রতিশ্রুতি। আমরা বিশ্বাস করি সুস্থ চোখ = উৎপাদনশীল জীবন।">
+  <meta name="keywords" content="Vayrin Eye Gear about, Bangladesh eyewear brand, blue cut glasses company, চশমার দোকান ঢাকা">
+  <link rel="canonical" href="https://vayrineyegear.com/about.html">
+
+  <meta property="og:type"  content="website">
+  <meta property="og:title" content="আমাদের সম্পর্কে — Vayrin Eye Gear">
+  <meta property="og:url"   content="https://vayrineyegear.com/about.html">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* About page hero */
+    .about-hero {
+      position: relative;
+      padding: var(--sp-24) 0 var(--sp-20);
+      overflow: hidden;
+    }
+    .about-hero::before {
+      content: '';
+      position: absolute;
+      top: -20%; right: -10%;
+      width: 60vw; height: 60vw;
+      background: radial-gradient(ellipse, rgba(14,165,233,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .about-hero__eyebrow {
+      display: inline-block;
+      padding: var(--sp-2) var(--sp-5);
+      background: var(--color-blue-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-full);
+      font-size: 0.78rem; color: var(--color-blue);
+      font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: var(--sp-5);
+    }
+    .about-hero__title {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      line-height: 1.15;
+      max-width: 720px;
+      margin: 0 auto var(--sp-6);
+    }
+    .about-hero__desc {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin: 0 auto var(--sp-10);
+      line-height: 1.75;
+    }
+
+    /* Stats grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-4);
+      margin-bottom: var(--sp-16);
+    }
+    .stat-card {
+      background: var(--color-navy-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-xl);
+      padding: var(--sp-8);
+      text-align: center;
+      transition: all var(--t-base);
+    }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-blue); border-color: var(--border-medium); }
+    .stat-card__value { font-family: var(--font-mono); font-size: 2.4rem; color: var(--color-gold); font-weight: 700; line-height: 1; margin-bottom: var(--sp-2); }
+    .stat-card__label { font-size: 0.85rem; color: var(--text-secondary); }
+
+    /* Story layout */
+    .story-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-16);
+      align-items: center;
+    }
+    .story-visual {
+      position: relative;
+      border-radius: var(--r-xl);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: var(--color-navy-card);
+      border: 1px solid var(--border-subtle);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .story-visual-glow {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 60%, rgba(14,165,233,0.12) 0%, transparent 60%);
+    }
+    .story-visual-emoji { font-size: 8rem; opacity: 0.8; }
+
+    /* Timeline */
+    .timeline { position: relative; padding-left: var(--sp-10); }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 14px; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--color-blue), var(--color-gold), transparent);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: var(--sp-8);
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: calc(-1 * var(--sp-10) + 8px);
+      top: 6px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--color-blue);
+      border: 2px solid var(--color-navy-base);
+      box-shadow: 0 0 0 4px var(--color-blue-glow);
+    }
+    .timeline-item__year {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--color-blue);
+      letter-spacing: 0.1em;
+      margin-bottom: var(--sp-2);
+    }
+    .timeline-item__title { font-weight: 700; font-size: 1.05rem; margin-bottom: var(--sp-2); }
+    .timeline-item__desc  { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; }
+
+    /* Mission / Vision / Values */
+    .mvv-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-6);
+    }
+    .mvv-card {
+      background: var(--color-navy-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-xl);
+      padding: var(--sp-8);
+      position: relative;
+      overflow: hidden;
+    }
+    .mvv-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 0 0 var(--r-xl) var(--r-xl);
+    }
+    .mvv-card--mission::after { background: var(--color-blue); }
+    .mvv-card--vision::after  { background: var(--color-gold); }
+    .mvv-card--values::after  { background: var(--color-success); }
+    .mvv-card__icon  { font-size: 2.5rem; margin-bottom: var(--sp-4); }
+    .mvv-card__title { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: var(--sp-4); }
+    .mvv-card__desc  { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; }
+
+    @media (max-width: 900px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .story-layout { grid-template-columns: 1fr; }
+      .mvv-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: var(--sp-3); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="nav">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <div class="nav__logo-icon">👓</div>
+        <div class="nav__logo-text">
+          <span class="nav__logo-name">VAYRIN</span>
+          <span class="nav__logo-tagline">Eye Gear</span>
+        </div>
+      </a>
+      <div class="nav__links">
+        <a href="index.html"   class="nav__link">হোম</a>
+        <a href="product.html" class="nav__link">পণ্য</a>
+        <a href="about.html"   class="nav__link active">আমাদের সম্পর্কে</a>
+        <a href="contact.html" class="nav__link">যোগাযোগ</a>
+      </div>
+      <div class="nav__actions">
+        <a href="tel:01930744595" class="nav__call">📞 01930744595</a>
+        <a href="order.html" class="btn btn--primary btn--sm">অর্ডার করুন</a>
+      </div>
+      <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav__mobile-menu">
+      <a href="index.html"   class="nav__link">🏠 হোম</a>
+      <a href="product.html" class="nav__link">👓 পণ্য</a>
+      <a href="about.html"   class="nav__link">ℹ️ আমাদের সম্পর্কে</a>
+      <a href="contact.html" class="nav__link">📞 যোগাযোগ</a>
+      <a href="order.html"   class="btn btn--primary btn--full" style="margin-top:12px">🛒 অর্ডার করুন</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ABOUT HERO -->
+<section class="about-hero text-center" aria-labelledby="about-title">
+  <div class="container">
+    <div class="about-hero__eyebrow reveal">আমাদের গল্প</div>
+    <h1 class="about-hero__title reveal reveal-delay-1" id="about-title">
+      সুস্থ চোখ,<br>উৎপাদনশীল জীবন
+    </h1>
+    <p class="about-hero__desc reveal reveal-delay-2">
+      Vayrin Eye Gear বিশ্বাস করে যে ডিজিটাল যুগে চোখের সুরক্ষা একটি বিলাসিতা নয়, 
+      এটি প্রতিটি মানুষের মৌলিক অধিকার। সেই বিশ্বাস থেকেই আমাদের যাত্রা শুরু।
+    </p>
+
+    <!-- Stats -->
+    <div class="stats-grid reveal reveal-delay-3">
+      <div class="stat-card">
+        <div class="stat-card__value" data-counter="5000" data-suffix="+">0+</div>
+        <div class="stat-card__label">সন্তুষ্ট কাস্টমার</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__value" data-counter="64">0</div>
+        <div class="stat-card__label">জেলায় ডেলিভারি</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__value" data-counter="4.8" data-suffix="★">0</div>
+        <div class="stat-card__label">গড় রেটিং</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__value" data-counter="98" data-suffix="%">0%</div>
+        <div class="stat-card__label">সন্তুষ্টির হার</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<hr class="divider">
+
+<!-- MISSION / VISION / VALUES -->
+<section class="section-pad" aria-labelledby="mvv-heading">
+  <div class="container">
+    <header class="section-header reveal">
+      <span class="label-tag">আমাদের মূলনীতি</span>
+      <h2 class="section-title" id="mvv-heading">আমরা কেন আছি</h2>
+      <div class="section-line"></div>
+    </header>
+
+    <div class="mvv-grid">
+      <div class="mvv-card mvv-card--mission reveal">
+        <div class="mvv-card__icon">🎯</div>
+        <h3 class="mvv-card__title">আমাদের লক্ষ্য (Mission)</h3>
+        <p class="mvv-card__desc">
+          বাংলাদেশের প্রতিটি ডিজিটাল কর্মী, শিক্ষার্থী ও পেশাদারের কাছে 
+          সাশ্রয়ী মূল্যে উচ্চমানের Blue Cut Eye Protection পৌঁছে দেওয়া।
+        </p>
+      </div>
+      <div class="mvv-card mvv-card--vision reveal reveal-delay-1">
+        <div class="mvv-card__icon">🔭</div>
+        <h3 class="mvv-card__title">আমাদের দৃষ্টিভঙ্গি (Vision)</h3>
+        <p class="mvv-card__desc">
+          ২০২৭ সালের মধ্যে বাংলাদেশের সবচেয়ে বিশ্বস্ত Eye Care ব্র্যান্ড হিসেবে 
+          প্রতিষ্ঠিত হওয়া এবং ১ মিলিয়ন মানুষের চোখ সুরক্ষিত রাখা।
+        </p>
+      </div>
+      <div class="mvv-card mvv-card--values reveal reveal-delay-2">
+        <div class="mvv-card__icon">💎</div>
+        <h3 class="mvv-card__title">আমাদের মূল্যবোধ (Values)</h3>
+        <p class="mvv-card__desc">
+          গুণগত মান, স্বচ্ছতা ও কাস্টমার সন্তুষ্টি — এই তিনটি মূলনীতি 
+          আমাদের প্রতিটি সিদ্ধান্তের ভিত্তি।
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUR STORY TIMELINE -->
+<section class="section-pad" style="background:var(--color-navy-elevated); border-block:1px solid var(--border-subtle);" aria-labelledby="story-heading">
+  <div class="container">
+    <div class="story-layout">
+      <!-- Visual side -->
+      <div class="story-visual reveal">
+        <div class="story-visual-glow" aria-hidden="true"></div>
+        <!--
+          DEVELOPER: Replace this emoji placeholder with an actual brand/office photo.
+          Recommended: A team photo or product photoshoot, 800x600px WebP.
+        -->
+        <div class="story-visual-emoji" aria-hidden="true">👓</div>
+      </div>
+
+      <!-- Text side -->
+      <div class="reveal reveal-delay-1">
+        <span class="label-tag" style="display:inline-block; margin-bottom:var(--sp-4);">আমাদের যাত্রা</span>
+        <h2 class="section-title" id="story-heading" style="margin-bottom:var(--sp-8);">
+          কিভাবে শুরু হলো Vayrin
+        </h2>
+
+        <div class="timeline" role="list">
+          <!--
+            DEVELOPER: Update each timeline-item with the brand's real founding story.
+            Year, event title and description should reflect actual milestones.
+          -->
+          <div class="timeline-item reveal" role="listitem">
+            <div class="timeline-item__year">২০২২</div>
+            <h3 class="timeline-item__title">প্রথম পদক্ষেপ</h3>
+            <p class="timeline-item__desc">
+              একজন IT পেশাদারের চোখের সমস্যা থেকে অনুপ্রাণিত হয়ে Vayrin Eye Gear-এর যাত্রা শুরু হয়। 
+              লক্ষ্য ছিল একটাই — সাশ্রয়ী মূল্যে প্রিমিয়াম আই প্রোটেকশন।
+            </p>
+          </div>
+          <div class="timeline-item reveal reveal-delay-1" role="listitem">
+            <div class="timeline-item__year">২০২৩</div>
+            <h3 class="timeline-item__title">প্রথম ১০০০ কাস্টমার</h3>
+            <p class="timeline-item__desc">
+              Facebook ও WhatsApp-এর মাধ্যমে অর্ডার শুরু হয়। মাত্র ৬ মাসে ১০০০ জনেরও বেশি 
+              সন্তুষ্ট কাস্টমার তৈরি হয়।
+            </p>
+          </div>
+          <div class="timeline-item reveal reveal-delay-2" role="listitem">
+            <div class="timeline-item__year">২০২৪</div>
+            <h3 class="timeline-item__title">সারা বাংলাদেশে বিস্তার</h3>
+            <p class="timeline-item__desc">
+              ঢাকার বাইরেও ডেলিভারি শুরু হয়। SA Paribahan ও Sundarban Courier-এর মাধ্যমে 
+              সারা বাংলাদেশের ৬৪ জেলায় পৌঁছানো সম্ভব হয়।
+            </p>
+          </div>
+          <div class="timeline-item reveal reveal-delay-3" role="listitem">
+            <div class="timeline-item__year">২০২৫</div>
+            <h3 class="timeline-item__title">অনলাইন শপ লঞ্চ</h3>
+            <p class="timeline-item__desc">
+              পেশাদার ওয়েবসাইট ও অনলাইন অর্ডার সিস্টেম চালু। ৫০০০+ সন্তুষ্ট কাস্টমার 
+              এবং ৪.৮ স্টার রেটিং অর্জন।
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY TRUST US -->
+<section class="section-pad" aria-labelledby="trust-heading">
+  <div class="container">
+    <header class="section-header reveal">
+      <span class="label-tag">কেন আমাদের বেছে নেবেন</span>
+      <h2 class="section-title" id="trust-heading">আমাদের প্রতিশ্রুতি</h2>
+      <div class="section-line"></div>
+    </header>
+
+    <div class="grid-3">
+      <div class="feature-card reveal">
+        <div class="feature-card__icon">🏭</div>
+        <h3 class="feature-card__title">অরিজিনাল পণ্য গ্যারান্টি</h3>
+        <p class="feature-card__desc">আমরা শুধুমাত্র প্রমাণিত উৎস থেকে পণ্য সংগ্রহ করি। প্রতিটি পণ্যের মান আমরা নিজেরা যাচাই করি।</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-card__icon">🔒</div>
+        <h3 class="feature-card__title">নিরাপদ লেনদেন</h3>
+        <p class="feature-card__desc">Cash on Delivery পদ্ধতিতে পণ্য পাওয়ার পরেই পেমেন্ট — কোনো ঝুঁকি নেই, কোনো অগ্রিম পেমেন্ট নেই।</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-card__icon">↩️</div>
+        <h3 class="feature-card__title">সহজ রিটার্ন</h3>
+        <p class="feature-card__desc">পণ্য পছন্দ না হলে ৭ দিনের মধ্যে ফেরত দেওয়ার সুযোগ। কোনো প্রশ্ন ছাড়াই সম্পূর্ণ রিফান্ড।</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-card__icon">🚀</div>
+        <h3 class="feature-card__title">দ্রুত ডেলিভারি</h3>
+        <p class="feature-card__desc">ঢাকায় ১–২ দিন, ঢাকার বাইরে ২–৩ কার্যদিবসের মধ্যে দরজায় পৌঁছে দেওয়ার নিশ্চয়তা।</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-card__icon">💬</div>
+        <h3 class="feature-card__title">২৪/৭ সাপোর্ট</h3>
+        <p class="feature-card__desc">WhatsApp ও ফোনে সবসময় আমাদের টিম আপনার পাশে। অর্ডার, ডেলিভারি বা যেকোনো সমস্যায় সাথে সাথে সাড়া।</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-card__icon">⭐</div>
+        <h3 class="feature-card__title">হাজারো সন্তুষ্ট কাস্টমার</h3>
+        <p class="feature-card__desc">৫০০০+ কাস্টমার ইতোমধ্যে আমাদের পণ্য ব্যবহার করছেন এবং ৪.৮/৫ রেটিং দিয়েছেন।</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section-pad--sm" style="background:var(--color-navy-elevated); border-block:1px solid var(--border-subtle);">
+  <div class="container text-center reveal">
+    <h2 class="section-title" style="margin-bottom:var(--sp-4);">আজই আপনার চোখের যত্ন নিন</h2>
+    <p style="color:var(--text-secondary); margin-bottom:var(--sp-8);">মাত্র ৳১১০০ — Cash on Delivery — সারা বাংলাদেশে</p>
+    <div style="display:flex; gap:var(--sp-4); justify-content:center; flex-wrap:wrap;">
+      <a href="order.html"      class="btn btn--primary btn--lg btn--pulse">🛒 এখনই অর্ডার করুন</a>
+      <a href="contact.html"    class="btn btn--outline btn--lg">📞 যোগাযোগ করুন</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand-logo"><div class="nav__logo-icon">👓</div><div class="nav__logo-text"><span class="nav__logo-name">VAYRIN</span><span class="nav__logo-tagline">Eye Gear</span></div></div>
+        <p class="footer__desc">সুস্থ চোখ = উৎপাদনশীল জীবন। প্রিমিয়াম Blue Cut চশমা সাশ্রয়ী মূল্যে।</p>
+        <div class="footer__social">
+          <a href="#" class="footer__social-btn" aria-label="Facebook">f</a>
+          <a href="https://wa.me/8801930744595" class="footer__social-btn" aria-label="WhatsApp">💬</a>
+        </div>
+      </div>
+      <div>
+        <h3 class="footer__col-title">পেজ সমূহ</h3>
+        <nav class="footer__links">
+          <a href="index.html"   class="footer__link">হোম</a>
+          <a href="product.html" class="footer__link">পণ্য</a>
+          <a href="about.html"   class="footer__link">আমাদের সম্পর্কে</a>
+          <a href="contact.html" class="footer__link">যোগাযোগ</a>
+          <a href="order.html"   class="footer__link">অর্ডার করুন</a>
+        </nav>
+      </div>
+      <div>
+        <h3 class="footer__col-title">পলিসি</h3>
+        <nav class="footer__links">
+          <a href="#" class="footer__link">রিটার্ন পলিসি</a>
+          <a href="#" class="footer__link">প্রাইভেসি পলিসি</a>
+          <a href="#" class="footer__link">ডেলিভারি নীতি</a>
+        </nav>
+      </div>
+      <div>
+        <h3 class="footer__col-title">যোগাযোগ</h3>
+        <div class="footer__contact-item"><span>📞</span><div><strong>ফোন / WhatsApp</strong><a href="tel:01930744595" style="color:var(--color-blue);">01930744595</a></div></div>
+        <div class="footer__contact-item"><span>🕒</span><div><strong>সার্ভিস সময়</strong><span>শনি–বৃহঃ, ৯টা–১০টা</span></div></div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year"></span> Vayrin Eye Gear. All rights reserved.</span>
+      <span>Made with ❤️ in Bangladesh</span>
+    </div>
+  </div>
+</footer>
+
+<div class="fab-group">
+  <a href="https://wa.me/8801930744595" class="fab fab--whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+  <a href="tel:01930744595" class="fab fab--phone" aria-label="Call">📞</a>
+</div>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="main.js" defer></script>
+</body>
+</html>

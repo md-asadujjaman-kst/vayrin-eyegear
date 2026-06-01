@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ================================================================
+  VAYRIN EYE GEAR — sitemap.xml
+  ================================================================
+  DEVELOPER NOTES:
+  • Submit this file to Google Search Console:
+    https://search.google.com/search-console
+  • After submitting, visit:
+    https://vayrineyegear.com/sitemap.xml
+    to verify it's accessible.
+  • Update <lastmod> dates whenever a page is significantly changed.
+  • Ping Google after updates:
+    https://www.google.com/ping?sitemap=https://vayrineyegear.com/sitemap.xml
+  ================================================================
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Homepage — highest priority -->
+  <url>
+    <loc>https://vayrineyegear.com/</loc>
+    <lastmod>2025-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="bn" href="https://vayrineyegear.com/"/>
+  </url>
+
+  <!-- Product page — high priority for e-commerce SEO -->
+  <url>
+    <loc>https://vayrineyegear.com/product.html</loc>
+    <lastmod>2025-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- About page -->
+  <url>
+    <loc>https://vayrineyegear.com/about.html</loc>
+    <lastmod>2025-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Contact page -->
+  <url>
+    <loc>https://vayrineyegear.com/contact.html</loc>
+    <lastmod>2025-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Order page — noindexed but included for sitemap completeness; remove if preferred -->
+  <!-- Uncomment if you want search engines to find the order page:
+  <url>
+    <loc>https://vayrineyegear.com/order.html</loc>
+    <lastmod>2025-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  -->
+
+</urlset>

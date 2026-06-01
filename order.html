@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<!--
+  ================================================================
+  VAYRIN EYE GEAR — Order Page (order.html)
+  ================================================================
+  DEVELOPER NOTES:
+  • The form submits via WhatsApp by default (see main.js → sendOrderViaWhatsApp).
+  • To switch to a real backend:
+      1. Remove the WhatsApp submit handler in main.js
+      2. Add action="your-api-endpoint" method="POST" to <form id="orderForm">
+      3. Add CSRF token if using PHP/Laravel
+      4. Add server-side validation
+  • bKash/Nagad payment: add a payment method section below the delivery options.
+    Connect to their respective sandbox/production APIs.
+  • Facebook Pixel: the 'InitiateCheckout' event fires on page load —
+    uncomment the fbq() call at the bottom.
+  • Google Analytics: uncomment gtag('event','begin_checkout') call.
+  • Order summary updates dynamically via JS (see main.js CONFIG object).
+  ================================================================
+-->
+<html lang="bn" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>অর্ডার করুন — Vayrin Eye Gear | Premium Blue Cut Eyeglasses</title>
+  <meta name="description" content="Vayrin Eye Gear থেকে Premium Blue Cut Eyeglasses অর্ডার করুন। মাত্র ৳১১০০, Cash on Delivery। নাম, ঠিকানা দিন — আমরা পৌঁছে দেব।">
+  <!-- DEVELOPER: Order pages should be noindexed to avoid duplicate content -->
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://vayrineyegear.com/order.html">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .order-layout {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: var(--sp-10);
+      align-items: start;
+    }
+
+    .form-section-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      padding-bottom: var(--sp-4);
+      margin-bottom: var(--sp-5);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+    .form-section-step {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--color-blue-subtle);
+      border: 1px solid var(--border-medium);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--color-blue);
+      flex-shrink: 0;
+    }
+
+    .payment-option {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      padding: var(--sp-4) var(--sp-5);
+      background: var(--color-navy-card);
+      border: 2px solid var(--border-subtle);
+      border-radius: var(--r-md);
+      cursor: pointer;
+      transition: all var(--t-fast);
+      margin-bottom: var(--sp-3);
+    }
+    .payment-option:hover { border-color: var(--border-medium); }
+    .payment-option input { accent-color: var(--color-blue); }
+    .payment-option.selected { border-color: var(--color-blue); background: var(--color-blue-subtle); }
+    .payment-option__logo {
+      width: 48px; height: 32px;
+      border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      background: var(--color-navy-elevated);
+    }
+    .payment-option__label { font-weight: 700; font-size: 0.9rem; }
+    .payment-option__desc  { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* Progress indicator */
+    .order-progress {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: var(--sp-10);
+    }
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+    .progress-step__circle {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--color-navy-elevated);
+      border: 2px solid var(--border-subtle);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      transition: all var(--t-base);
+    }
+    .progress-step__label { font-size: 0.7rem; color: var(--text-muted); white-space: nowrap; }
+    .progress-step.active .progress-step__circle {
+      background: var(--color-blue);
+      border-color: var(--color-blue);
+      color: #fff;
+    }
+    .progress-step.active .progress-step__label { color: var(--color-blue); }
+    .progress-step.done .progress-step__circle {
+      background: var(--color-success);
+      border-color: var(--color-success);
+      color: #fff;
+    }
+    .progress-line {
+      width: 60px; height: 2px;
+      background: var(--border-subtle);
+      margin-bottom: 18px;
+    }
+    .progress-line.done { background: var(--color-success); }
+
+    /* Sticky bottom bar on mobile */
+    .mobile-order-bar {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--color-navy-elevated);
+      border-top: 1px solid var(--border-subtle);
+      padding: var(--sp-4) var(--sp-6);
+      z-index: var(--z-sticky);
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-4);
+    }
+    .mobile-order-bar__total {
+      font-family: var(--font-mono);
+      font-size: 1.3rem;
+      color: var(--color-gold);
+      font-weight: 700;
+    }
+
+    @media (max-width: 900px) {
+      .order-layout { grid-template-columns: 1fr; }
+      .order-summary { position: static; }
+      .mobile-order-bar { display: flex; }
+      body { padding-bottom: 80px; }
+    }
+    @media (max-width: 480px) {
+      .order-progress { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="nav">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <div class="nav__logo-icon">👓</div>
+        <div class="nav__logo-text">
+          <span class="nav__logo-name">VAYRIN</span>
+          <span class="nav__logo-tagline">Eye Gear</span>
+        </div>
+      </a>
+      <div class="nav__links">
+        <a href="index.html"   class="nav__link">হোম</a>
+        <a href="product.html" class="nav__link">পণ্য</a>
+        <a href="about.html"   class="nav__link">আমাদের সম্পর্কে</a>
+        <a href="contact.html" class="nav__link">যোগাযোগ</a>
+      </div>
+      <div class="nav__actions">
+        <a href="tel:01930744595" class="nav__call">📞 01930744595</a>
+      </div>
+      <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav__mobile-menu">
+      <a href="index.html"   class="nav__link">🏠 হোম</a>
+      <a href="product.html" class="nav__link">👓 পণ্য</a>
+      <a href="about.html"   class="nav__link">ℹ️ আমাদের সম্পর্কে</a>
+      <a href="contact.html" class="nav__link">📞 যোগাযোগ</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div style="background:var(--color-navy-elevated); border-bottom:1px solid var(--border-subtle); padding:var(--sp-6) 0;">
+  <div class="container">
+    <nav aria-label="Breadcrumb" style="margin-bottom:var(--sp-3);">
+      <ol style="display:flex; gap:8px; align-items:center; font-size:0.82rem; color:var(--text-muted); list-style:none;">
+        <li><a href="index.html"   style="color:var(--text-muted);">হোম</a></li>
+        <li style="opacity:0.4;">/</li>
+        <li><a href="product.html" style="color:var(--text-muted);">পণ্য</a></li>
+        <li style="opacity:0.4;">/</li>
+        <li><a href="order.html"   style="color:var(--color-blue);">অর্ডার</a></li>
+      </ol>
+    </nav>
+    <h1 style="font-family:var(--font-display); font-size:1.8rem;">অর্ডার করুন</h1>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="container" style="padding-top:var(--sp-8);">
+  <div class="order-progress" role="list" aria-label="Order progress">
+    <div class="progress-step active" role="listitem">
+      <div class="progress-step__circle">1</div>
+      <div class="progress-step__label">তথ্য দিন</div>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step" role="listitem">
+      <div class="progress-step__circle">2</div>
+      <div class="progress-step__label">কনফার্ম</div>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step" role="listitem">
+      <div class="progress-step__circle">3</div>
+      <div class="progress-step__label">ডেলিভারি</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN ORDER FORM -->
+<section class="section-pad--sm">
+  <div class="container">
+    <div class="order-layout">
+
+      <!-- ===== LEFT: Form ===== -->
+      <div>
+        <form id="orderForm" novalidate aria-label="Order form">
+
+          <!-- SECTION 1: Customer Info -->
+          <div class="order-form" style="margin-bottom:var(--sp-6);">
+            <div class="form-section-title">
+              <span class="form-section-step">1</span>
+              আপনার তথ্য
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="customerName">
+                পুরো নাম <span class="required" aria-label="required">*</span>
+              </label>
+              <input
+                type="text"
+                id="customerName"
+                name="customerName"
+                class="form-input"
+                placeholder="আপনার পুরো নাম লিখুন"
+                required
+                autocomplete="name"
+                aria-required="true"
+              >
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="phone">
+                  মোবাইল নম্বর <span class="required">*</span>
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  class="form-input"
+                  placeholder="01XXXXXXXXX"
+                  required
+                  autocomplete="tel"
+                  aria-required="true"
+                  pattern="^01[3-9]\d{8}$"
+                  inputmode="numeric"
+                >
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="altPhone">বিকল্প নম্বর</label>
+                <input
+                  type="tel"
+                  id="altPhone"
+                  name="altPhone"
+                  class="form-input"
+                  placeholder="01XXXXXXXXX (ঐচ্ছিক)"
+                  autocomplete="tel"
+                  inputmode="numeric"
+                >
+              </div>
+            </div>
+          </div><!-- end section 1 -->
+
+          <!-- SECTION 2: Delivery Address -->
+          <div class="order-form" style="margin-bottom:var(--sp-6);">
+            <div class="form-section-title">
+              <span class="form-section-step">2</span>
+              ডেলিভারি ঠিকানা
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="address">
+                বিস্তারিত ঠিকানা <span class="required">*</span>
+              </label>
+              <textarea
+                id="address"
+                name="address"
+                class="form-textarea"
+                placeholder="বাড়ি নম্বর, রাস্তা, এলাকা — বিস্তারিতভাবে লিখুন"
+                required
+                aria-required="true"
+                rows="3"
+              ></textarea>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="district">
+                  জেলা <span class="required">*</span>
+                </label>
+                <select id="district" name="district" class="form-select" required aria-required="true">
+                  <option value="">জেলা বেছে নিন</option>
+                  <optgroup label="ঢাকা বিভাগ">
+                    <option value="dhaka">ঢাকা</option>
+                    <option value="narayanganj">নারায়ণগঞ্জ</option>
+                    <option value="gazipur">গাজীপুর</option>
+                    <option value="manikganj">মানিকগঞ্জ</option>
+                    <option value="munshiganj">মুন্সীগঞ্জ</option>
+                    <option value="narsingdi">নরসিংদী</option>
+                  </optgroup>
+                  <optgroup label="চট্টগ্রাম বিভাগ">
+                    <option value="chittagong">চট্টগ্রাম</option>
+                    <option value="comilla">কুমিল্লা</option>
+                    <option value="cox">কক্সবাজার</option>
+                    <option value="feni">ফেনী</option>
+                  </optgroup>
+                  <optgroup label="সিলেট বিভাগ">
+                    <option value="sylhet">সিলেট</option>
+                    <option value="moulvibazar">মৌলভীবাজার</option>
+                    <option value="habiganj">হবিগঞ্জ</option>
+                  </optgroup>
+                  <optgroup label="রাজশাহী বিভাগ">
+                    <option value="rajshahi">রাজশাহী</option>
+                    <option value="bogra">বগুড়া</option>
+                    <option value="chapai">চাঁপাইনবাবগঞ্জ</option>
+                  </optgroup>
+                  <optgroup label="খুলনা বিভাগ">
+                    <option value="khulna">খুলনা</option>
+                    <option value="jessore">যশোর</option>
+                    <option value="satkhira">সাতক্ষীরা</option>
+                  </optgroup>
+                  <optgroup label="বরিশাল বিভাগ">
+                    <option value="barishal">বরিশাল</option>
+                    <option value="patuakhali">পটুয়াখালী</option>
+                  </optgroup>
+                  <optgroup label="ময়মনসিংহ বিভাগ">
+                    <option value="mymensingh">ময়মনসিংহ</option>
+                    <option value="jamalpur">জামালপুর</option>
+                  </optgroup>
+                  <optgroup label="রংপুর বিভাগ">
+                    <option value="rangpur">রংপুর</option>
+                    <option value="dinajpur">দিনাজপুর</option>
+                    <option value="kurigram">কুড়িগ্রাম</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="upazila">উপজেলা / থানা</label>
+                <input
+                  type="text"
+                  id="upazila"
+                  name="upazila"
+                  class="form-input"
+                  placeholder="উপজেলা / থানার নাম"
+                >
+              </div>
+            </div>
+
+            <!-- Delivery Zone Radio -->
+            <div class="form-group">
+              <p class="form-label" id="delivery-label">ডেলিভারি চার্জ <span class="required">*</span></p>
+              <div role="radiogroup" aria-labelledby="delivery-label">
+                <label class="payment-option selected" id="opt-dhaka">
+                  <input type="radio" name="delivery" value="dhaka" data-fee="70" data-zone="ঢাকার মধ্যে" checked>
+                  <div class="payment-option__logo">📍</div>
+                  <div>
+                    <div class="payment-option__label">ঢাকার মধ্যে</div>
+                    <div class="payment-option__desc">১–২ কার্যদিবস · Sundarban / Pathao</div>
+                  </div>
+                  <span style="margin-left:auto; font-family:var(--font-mono); color:var(--color-gold); font-weight:700;">৳৭০</span>
+                </label>
+                <label class="payment-option" id="opt-outside">
+                  <input type="radio" name="delivery" value="outside" data-fee="120" data-zone="ঢাকার বাইরে">
+                  <div class="payment-option__logo">🗺️</div>
+                  <div>
+                    <div class="payment-option__label">ঢাকার বাইরে</div>
+                    <div class="payment-option__desc">২–৩ কার্যদিবস · SA Paribahan / Sundarban</div>
+                  </div>
+                  <span style="margin-left:auto; font-family:var(--font-mono); color:var(--color-gold); font-weight:700;">৳১২০</span>
+                </label>
+              </div>
+            </div>
+          </div><!-- end section 2 -->
+
+          <!-- SECTION 3: Payment -->
+          <div class="order-form" style="margin-bottom:var(--sp-6);">
+            <div class="form-section-title">
+              <span class="form-section-step">3</span>
+              পেমেন্ট পদ্ধতি
+            </div>
+
+            <div role="radiogroup" aria-label="Payment method">
+              <!-- Cash on Delivery (default / recommended for BD) -->
+              <label class="payment-option selected" id="pay-cod">
+                <input type="radio" name="payment" value="cod" checked>
+                <div class="payment-option__logo">💵</div>
+                <div>
+                  <div class="payment-option__label">Cash on Delivery (COD)</div>
+                  <div class="payment-option__desc">পণ্য পাওয়ার পর পেমেন্ট করুন — সবচেয়ে জনপ্রিয় পদ্ধতি</div>
+                </div>
+              </label>
+
+              <!--
+                DEVELOPER: Uncomment below and integrate bKash / Nagad APIs.
+                bKash Merchant API: https://developer.bka.sh/
+                Nagad API: https://nagad.com.bd/developer/
+
+              <label class="payment-option" id="pay-bkash">
+                <input type="radio" name="payment" value="bkash">
+                <div class="payment-option__logo" style="background:#E2136E; color:#fff; font-size:0.7rem; font-weight:700;">bKash</div>
+                <div>
+                  <div class="payment-option__label">bKash Mobile Banking</div>
+                  <div class="payment-option__desc">bKash Merchant নম্বরে পেমেন্ট করুন</div>
+                </div>
+              </label>
+
+              <label class="payment-option" id="pay-nagad">
+                <input type="radio" name="payment" value="nagad">
+                <div class="payment-option__logo" style="background:#F05A28; color:#fff; font-size:0.7rem; font-weight:700;">Nagad</div>
+                <div>
+                  <div class="payment-option__label">Nagad Mobile Banking</div>
+                  <div class="payment-option__desc">Nagad নম্বরে পেমেন্ট করুন</div>
+                </div>
+              </label>
+              -->
+            </div>
+          </div><!-- end section 3 -->
+
+          <!-- SECTION 4: Note -->
+          <div class="order-form" style="margin-bottom:var(--sp-6);">
+            <div class="form-section-title">
+              <span class="form-section-step">4</span>
+              অতিরিক্ত নোট <span style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-body); font-weight:400;">(ঐচ্ছিক)</span>
+            </div>
+            <div class="form-group">
+              <textarea
+                id="note"
+                name="note"
+                class="form-textarea"
+                placeholder="কোনো বিশেষ নির্দেশনা থাকলে এখানে লিখুন..."
+                rows="3"
+                aria-label="Special instructions (optional)"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Terms agreement -->
+          <div style="display:flex; align-items:flex-start; gap:var(--sp-3); margin-bottom:var(--sp-6); font-size:0.88rem; color:var(--text-secondary);">
+            <input type="checkbox" id="terms" name="terms" required
+              style="margin-top:3px; accent-color:var(--color-blue); flex-shrink:0;"
+              aria-required="true">
+            <label for="terms">
+              অর্ডার করার মাধ্যমে আমি Vayrin Eye Gear-এর
+              <a href="#" style="color:var(--color-blue);">শর্তাবলি</a> এবং
+              <a href="#" style="color:var(--color-blue);">রিটার্ন পলিসি</a>-তে সম্মত।
+            </label>
+          </div>
+
+          <!-- SUBMIT -->
+          <button type="submit" class="btn btn--primary btn--full btn--lg btn--pulse" id="submitOrderBtn">
+            🛒 অর্ডার কনফার্ম করুন — <span class="js-total-display">৳১,১৭০</span>
+          </button>
+          <p style="text-align:center; font-size:0.8rem; color:var(--text-muted); margin-top:var(--sp-4);">
+            🔒 আপনার তথ্য সম্পূর্ণ নিরাপদ। কনফার্মেশনের জন্য আমরা কল করব।
+          </p>
+        </form>
+      </div><!-- end left form -->
+
+      <!-- ===== RIGHT: Order Summary ===== -->
+      <aside aria-label="Order summary">
+        <div class="order-summary">
+          <div class="order-summary__header">🧾 অর্ডার সারসংক্ষেপ</div>
+          <div class="order-summary__body">
+
+            <!-- Product row -->
+            <div class="order-summary__product">
+              <!--
+                DEVELOPER: Replace src with actual product thumbnail.
+                This image is also shown in WhatsApp order confirmation.
+              -->
+              <div style="width:64px; height:64px; border-radius:12px; background:var(--color-navy-base); border:1px solid var(--border-subtle); display:flex; align-items:center; justify-content:center; font-size:2rem; flex-shrink:0;">👓</div>
+              <div style="flex:1;">
+                <div class="order-summary__product-name">Premium Blue Cut Eyeglasses</div>
+                <div style="font-size:0.78rem; color:var(--text-muted); margin-top:2px;">Vayrin Eye Gear · Qty: 1</div>
+                <div class="order-summary__product-price" style="margin-top:4px;">৳১,১০০</div>
+              </div>
+            </div>
+
+            <!-- Price rows -->
+            <div class="order-summary__row">
+              <span>পণ্যমূল্য</span>
+              <span id="orderSubtotal" style="font-family:var(--font-mono);">৳ ১,১০০</span>
+            </div>
+            <div class="order-summary__row">
+              <span>ডেলিভারি চার্জ</span>
+              <span id="orderDeliveryFee" style="font-family:var(--font-mono);">৳ ৭০</span>
+            </div>
+            <div class="order-summary__row order-summary__total">
+              <span>মোট পরিশোধ</span>
+              <span class="order-summary__total-amount js-total-display" id="orderTotal">৳ ১,১৭০</span>
+            </div>
+
+            <!-- COD badge -->
+            <div style="margin-top:var(--sp-5); padding:var(--sp-4); background:rgba(5,150,105,0.08); border:1px solid rgba(5,150,105,0.2); border-radius:var(--r-md); display:flex; align-items:center; gap:var(--sp-3);">
+              <span style="font-size:1.3rem;">💵</span>
+              <div>
+                <div style="font-weight:700; font-size:0.88rem; color:var(--color-success);">ক্যাশ অন ডেলিভারি</div>
+                <div style="font-size:0.78rem; color:var(--text-muted);">পণ্য পাওয়ার পরেই পেমেন্ট করুন</div>
+              </div>
+            </div>
+
+            <!-- What you get -->
+            <div style="margin-top:var(--sp-5); padding-top:var(--sp-5); border-top:1px solid var(--border-subtle);">
+              <p style="font-size:0.8rem; font-weight:700; color:var(--text-secondary); margin-bottom:var(--sp-4); letter-spacing:0.05em; text-transform:uppercase;">বাক্সে পাবেন:</p>
+              <div style="display:flex; flex-direction:column; gap:var(--sp-2);">
+                <div style="display:flex; gap:var(--sp-2); font-size:0.85rem; color:var(--text-muted);">✅ ১টি Premium Blue Cut Eyeglasses</div>
+                <div style="display:flex; gap:var(--sp-2); font-size:0.85rem; color:var(--text-muted);">✅ ১টি Protective Case</div>
+                <div style="display:flex; gap:var(--sp-2); font-size:0.85rem; color:var(--text-muted);">✅ ১টি Microfiber Cleaning Cloth</div>
+              </div>
+            </div>
+
+            <!-- Help -->
+            <div style="margin-top:var(--sp-5); padding-top:var(--sp-5); border-top:1px solid var(--border-subtle);">
+              <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:var(--sp-3);">সাহায্য দরকার?</p>
+              <a href="tel:01930744595" class="btn btn--ghost btn--sm btn--full" style="margin-bottom:8px;">📞 01930744595</a>
+              <a href="https://wa.me/8801930744595" target="_blank" rel="noopener" class="btn btn--whatsapp btn--sm btn--full">💬 WhatsApp করুন</a>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+    </div><!-- end order-layout -->
+  </div>
+</section>
+
+<!-- Mobile sticky bottom bar -->
+<div class="mobile-order-bar" role="complementary" aria-label="Order total">
+  <div>
+    <div style="font-size:0.78rem; color:var(--text-muted);">মোট পরিশোধ</div>
+    <div class="mobile-order-bar__total js-total-display">৳ ১,১৭০</div>
+  </div>
+  <button form="orderForm" type="submit" class="btn btn--primary">
+    🛒 কনফার্ম করুন
+  </button>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand-logo">
+          <div class="nav__logo-icon">👓</div>
+          <div class="nav__logo-text"><span class="nav__logo-name">VAYRIN</span><span class="nav__logo-tagline">Eye Gear</span></div>
+        </div>
+        <p class="footer__desc">সুস্থ চোখ = উৎপাদনশীল জীবন।</p>
+      </div>
+      <div>
+        <h3 class="footer__col-title">পেজ সমূহ</h3>
+        <nav class="footer__links">
+          <a href="index.html"   class="footer__link">হোম</a>
+          <a href="product.html" class="footer__link">পণ্য</a>
+          <a href="about.html"   class="footer__link">আমাদের সম্পর্কে</a>
+          <a href="contact.html" class="footer__link">যোগাযোগ</a>
+        </nav>
+      </div>
+      <div>
+        <h3 class="footer__col-title">পলিসি</h3>
+        <nav class="footer__links">
+          <a href="#" class="footer__link">রিটার্ন পলিসি</a>
+          <a href="#" class="footer__link">প্রাইভেসি পলিসি</a>
+        </nav>
+      </div>
+      <div>
+        <h3 class="footer__col-title">যোগাযোগ</h3>
+        <div class="footer__contact-item">
+          <span>📞</span>
+          <div><strong>ফোন</strong><a href="tel:01930744595" style="color:var(--color-blue);">01930744595</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year"></span> Vayrin Eye Gear. All rights reserved.</span>
+      <span>Made with ❤️ in Bangladesh</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Payment and delivery option visual selection
+  document.querySelectorAll('.payment-option').forEach(opt => {
+    const radio = opt.querySelector('input[type="radio"]');
+    if (!radio) return;
+    radio.addEventListener('change', () => {
+      // Deselect siblings within same group
+      document.querySelectorAll(`input[name="${radio.name}"]`).forEach(r => {
+        r.closest('.payment-option')?.classList.remove('selected');
+      });
+      opt.classList.add('selected');
+    });
+  });
+
+  // DEVELOPER: Uncomment these for analytics tracking
+  // fbq('track', 'InitiateCheckout', { value: 1100, currency: 'BDT', num_items: 1 });
+  // gtag('event', 'begin_checkout', { currency: 'BDT', value: 1100 });
+</script>
+<script src="main.js" defer></script>
+</body>
+</html>

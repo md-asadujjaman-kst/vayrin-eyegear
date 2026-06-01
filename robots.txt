@@ -1,0 +1,20 @@
+# ================================================================
+# VAYRIN EYE GEAR — robots.txt
+# ================================================================
+# DEVELOPER NOTES:
+# • Allows all search engines to crawl all pages.
+# • Points to the sitemap for faster indexing.
+# • Update the Sitemap URL when hosting on the real domain.
+# • To block a page from crawling, add: Disallow: /page-name.html
+# ================================================================
+
+User-agent: *
+Allow: /
+
+# Disallow admin/backend paths (add yours here)
+Disallow: /admin/
+Disallow: /api/
+Disallow: /*.php$
+
+# Sitemap location — IMPORTANT: Update domain before deploying
+Sitemap: https://vayrineyegear.com/sitemap.xml
