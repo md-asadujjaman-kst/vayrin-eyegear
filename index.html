@@ -7,7 +7,7 @@
   • This is the main landing page (home).
   • Google Fonts are loaded in <head> — do NOT remove those links.
   • Facebook Pixel block is commented out — paste FB Pixel ID to activate.
-  • Product images: replace all src="assets/glasses-*.jpg" with real images.
+  • Product images: all SVG assets are now included in /assets/ folder.
   • SEO meta tags are pre-configured — update description & keywords as needed.
   • Schema.org markup is in <script type="application/ld+json"> at bottom.
   • Hero background orbs are pure CSS — no images needed.
@@ -20,19 +20,18 @@
 
   <!-- ===== SEO META TAGS ===== -->
   <title>Vayrin Eye Gear — Premium Blue Cut Eyeglasses in Bangladesh | ব্লু কাট চশমা</title>
-  <meta name="description" content="মোবাইল ও কম্পিউটারের ক্ষতিকর নীল আলো থেকে চোখকে রক্ষা করুন। Vayrin Eye Gear-এর Premium Blue Cut Glasses মাত্র ৳১১০০ টাকায়। ঢাকায় ৭০৳ ডেলিভারি, Cash on Delivery.">
-  <meta name="keywords" content="blue cut glasses Bangladesh, blue light blocking glasses Dhaka, ব্লু কাট চশমা, Ray-Ban blue cut, চোখের চশমা, eyeglasses Bangladesh, premium glasses BD, eye protection glasses">
+  <meta name="description" content="মোবাইল ও কম্পিউটারের ক্ষতিকর নীল আলো থেকে চোখকে রক্ষা করুন। প্রিমিয়াম ব্লু কাট চশমা মাত্র ৳১১০০ — ক্যাশ অন ডেলিভারি।">
+  <meta name="keywords" content="blue cut glasses Bangladesh, blue light blocking glasses Dhaka, ব্লু কাট চশমা, Ray-Ban blue cut, চোখের চশমা, eyeglasses Bangladesh, digital eye protection">
   <meta name="author" content="Vayrin Eye Gear">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://vayrineyegear.com/">
 
   <!-- ===== Open Graph (Facebook / Messenger sharing) ===== -->
-  <!-- DEVELOPER: Update og:image with a real product photo URL for link previews -->
   <meta property="og:type"        content="website">
   <meta property="og:url"         content="https://vayrineyegear.com/">
   <meta property="og:title"       content="Vayrin Eye Gear — Premium Blue Cut Eyeglasses | ব্লু কাট চশমা">
-  <meta property="og:description" content="মোবাইল ও কম্পিউটারের ক্ষতিকর নীল আলো থেকে চোখ রক্ষা করুন। মাত্র ৳১১০০ — Cash on Delivery সারা বাংলাদেশে।">
-  <meta property="og:image"       content="https://vayrineyegear.com/assets/og-image.jpg">
+  <meta property="og:description" content="মোবাইল ও কম্পিউটারের ক্ষতিকর নীল আলো থেকে চোখ রক্ষা করুন। প্রিমিয়াম Blue Cut চশমা।">
+  <meta property="og:image"       content="https://vayrineyegear.com/assets/og-image.svg">
   <meta property="og:locale"      content="bn_BD">
   <meta property="og:site_name"   content="Vayrin Eye Gear">
 
@@ -40,12 +39,11 @@
   <meta name="twitter:card"        content="summary_large_image">
   <meta name="twitter:title"       content="Vayrin Eye Gear — Premium Blue Cut Eyeglasses">
   <meta name="twitter:description" content="চোখের সম্পূর্ণ সুরক্ষায় — মাত্র ৳১১০০। Cash on Delivery.">
-  <meta name="twitter:image"       content="https://vayrineyegear.com/assets/og-image.jpg">
+  <meta name="twitter:image"       content="https://vayrineyegear.com/assets/og-image.svg">
 
   <!-- ===== Favicon ===== -->
-  <!-- DEVELOPER: Add proper favicon files to /assets/favicon/ -->
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="apple-touch-icon"          href="assets/apple-touch-icon.png">
+  <link rel="apple-touch-icon"          href="assets/apple-touch-icon.svg">
 
   <!-- ===== Google Fonts ===== -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -212,7 +210,7 @@
         </h1>
 
         <p class="hero__desc reveal reveal-delay-2">
-          মোবাইল, ল্যাপটপ ও কম্পিউটারের ক্ষতিকর নীল আলো থেকে আপনার চোখকে সুরক্ষিত রাখুন। 
+          মোবাইল, ল্যাপটপ ও কম্পিউটারের ক্ষতিকর নীল আলো থেকে আপনার চোখকে সুরক্ষা দেবে আমাদের প্রিমিয়াম ব্লু কাট চশমা।
           দীর্ঘক্ষণ স্ক্রিনে কাজ করলেও চোখে কোনো চাপ অনুভব হবে না।
         </p>
 
@@ -251,25 +249,13 @@
       <!-- Visual side -->
       <div class="hero__visual" aria-hidden="true">
         <div class="hero__visual-float">
-          <!--
-            REPLACE_WITH_ACTUAL_IMAGE:
-            Replace the src below with the actual product hero image.
-            Recommended size: 800x600px WebP for best performance.
-            Use a transparent PNG of just the glasses for the float effect.
-          -->
           <img
-            src="assets/glasses-hero.png"
+            src="assets/glasses-hero.svg"
             alt="Vayrin Premium Blue Cut Eyeglasses"
             class="hero__visual-img"
             width="480" height="360"
             loading="eager"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
           >
-          <!-- Fallback placeholder when image not loaded -->
-          <div style="display:none; width:100%; max-width:480px; height:320px; margin:auto; background:var(--color-navy-card); border:1px solid var(--border-medium); border-radius:var(--r-xl); align-items:center; justify-content:center; flex-direction:column; gap:16px; color:var(--text-muted);">
-            <div style="font-size:5rem;">👓</div>
-            <div style="font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase;">REPLACE WITH PRODUCT IMAGE</div>
-          </div>
           <div class="hero__visual-glow"></div>
         </div>
       </div>
@@ -287,7 +273,7 @@
       <h2 class="section-title" id="features-heading">কেন Vayrin Blue Cut?</h2>
       <div class="section-line" aria-hidden="true"></div>
       <p class="section-subtitle">
-        আমাদের প্রিমিয়াম ব্লু কাট লেন্স আপনার চোখকে ডিজিটাল ক্লান্তি থেকে রক্ষা করে, 
+        আমাদের প্রিমিয়াম ব্লু কাট লেন্স আপনার চোখকে ডিজিটাল ক্লান্তি থেকে রক্ষা করে।
         পাশাপাশি আপনার লুক আরো স্মার্ট করে তোলে।
       </p>
     </header>
@@ -297,14 +283,14 @@
         <div class="feature-card__icon" aria-hidden="true">💙</div>
         <h3 class="feature-card__title">Blue Light Protection</h3>
         <p class="feature-card__desc">
-          ডিজিটাল স্ক্রিন থেকে নির্গত ক্ষতিকর নীল আলো ফিল্টার করে চোখকে দীর্ঘস্থায়ী ক্ষতির হাত থেকে বাঁচায়।
+          ডিজিটাল স্ক্রিন থেকে নির্গত ক্ষতিকর নীল আলো ফিল্টার করে চোখকে দীর্ঘস্থায়ী সুরক্ষা দেয়।
         </p>
       </article>
       <article class="feature-card reveal reveal-delay-1" role="listitem">
         <div class="feature-card__icon" aria-hidden="true">😌</div>
         <h3 class="feature-card__title">Eye Strain Relief</h3>
         <p class="feature-card__desc">
-          দীর্ঘ সময় কাজ করলেও চোখে কোনো চাপ বা মাথাব্যথা হয় না। এমনকি সন্ধ্যায় মেলাটোনিন ঠিক রেখে ঘুমের মানও উন্নত করে।
+          দীর্ঘ সময় কাজ করলেও চোখে কোনো চাপ বা মাথাব্যথা হয় না। এমনকি সন্ধ্যায় ভালো ঘুমও পাবেন।
         </p>
       </article>
       <article class="feature-card reveal reveal-delay-2" role="listitem">
@@ -325,14 +311,14 @@
         <div class="feature-card__icon" aria-hidden="true">💎</div>
         <h3 class="feature-card__title">Premium Build Quality</h3>
         <p class="feature-card__desc">
-          টেকসই ফ্রেম ও টপ-নচ লেন্স দিয়ে তৈরি — প্রতিদিনের ব্যবহারের জন্য একদম পারফেক্ট।
+          টেকসই ফ্রেম ও টপ-নচ লেন্স দিয়ে তৈরি — প্রতিদিনের ব্যবহারের জন্য একদম আদর্শ।
         </p>
       </article>
       <article class="feature-card reveal reveal-delay-2" role="listitem">
         <div class="feature-card__icon" aria-hidden="true">🎁</div>
         <h3 class="feature-card__title">Accessories Included</h3>
         <p class="feature-card__desc">
-          চশমার সাথে পাচ্ছেন একটি মাইক্রো-ফাইবার ক্লিনিং ক্লথ (মিহি কাপড়) এবং একটি এক্সক্লুসিভ কেস।
+          চশমার সাথে পাচ্ছেন একটি মাইক্রো-ফাইবার ক্লিনিং ক্লথ এবং এলিগ্যান্ট কেস।
         </p>
       </article>
     </div>
@@ -352,22 +338,22 @@
 
     <div class="grid-3" style="text-align:center;" role="list">
       <div class="reveal" role="listitem">
-        <div style="width:72px; height:72px; border-radius:50%; background:var(--color-blue-subtle); border:2px solid var(--border-medium); display:flex; align-items:center; justify-content:center; font-size:2rem; margin:0 auto var(--sp-5);" aria-hidden="true">📱</div>
+        <div style="width:72px; height:72px; border-radius:50%; background:var(--color-blue-subtle); border:2px solid var(--border-medium); display:flex; align-items:center; justify-content:center; margin:auto; font-size:2rem;">📋</div>
         <div style="font-family:var(--font-mono); color:var(--color-blue); font-size:0.75rem; letter-spacing:0.1em; margin-bottom:var(--sp-2);">STEP 01</div>
         <h3 style="font-size:1.15rem; margin-bottom:var(--sp-3);">ফর্ম পূরণ করুন</h3>
         <p style="font-size:0.9rem; color:var(--text-secondary);">নাম, মোবাইল নম্বর ও ঠিকানা দিয়ে অর্ডার ফর্ম সম্পন্ন করুন।</p>
       </div>
       <div class="reveal reveal-delay-1" role="listitem">
-        <div style="width:72px; height:72px; border-radius:50%; background:var(--color-blue-subtle); border:2px solid var(--border-medium); display:flex; align-items:center; justify-content:center; font-size:2rem; margin:0 auto var(--sp-5);" aria-hidden="true">✅</div>
+        <div style="width:72px; height:72px; border-radius:50%; background:var(--color-blue-subtle); border:2px solid var(--border-medium); display:flex; align-items:center; justify-content:center; margin:auto; font-size:2rem;">☎️</div>
         <div style="font-family:var(--font-mono); color:var(--color-blue); font-size:0.75rem; letter-spacing:0.1em; margin-bottom:var(--sp-2);">STEP 02</div>
         <h3 style="font-size:1.15rem; margin-bottom:var(--sp-3);">কনফার্মেশন কল</h3>
         <p style="font-size:0.9rem; color:var(--text-secondary);">আমাদের টিম অর্ডার কনফার্ম করতে আপনাকে কল করবে।</p>
       </div>
       <div class="reveal reveal-delay-2" role="listitem">
-        <div style="width:72px; height:72px; border-radius:50%; background:var(--color-blue-subtle); border:2px solid var(--border-medium); display:flex; align-items:center; justify-content:center; font-size:2rem; margin:0 auto var(--sp-5);" aria-hidden="true">🚚</div>
+        <div style="width:72px; height:72px; border-radius:50%; background:var(--color-blue-subtle); border:2px solid var(--border-medium); display:flex; align-items:center; justify-content:center; margin:auto; font-size:2rem;">🚚</div>
         <div style="font-family:var(--font-mono); color:var(--color-blue); font-size:0.75rem; letter-spacing:0.1em; margin-bottom:var(--sp-2);">STEP 03</div>
         <h3 style="font-size:1.15rem; margin-bottom:var(--sp-3);">ডেলিভারি পান</h3>
-        <p style="font-size:0.9rem; color:var(--text-secondary);">১–৩ কার্যদিবসের মধ্যে পণ্য হাতে পাবেন। পেমেন্ট করুন ডেলিভারিতে।</p>
+        <p style="font-size:0.9rem; color:var(--text-secondary);">১–৩ কার্যদিবসের মধ্যে পণ্য হাতে পাবেন। পেমেন্ট ডেলিভারিতে।</p>
       </div>
     </div>
 
@@ -394,7 +380,7 @@
       <article class="testimonial-card reveal" role="listitem">
         <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
         <p class="testimonial-card__text">
-          "সারাদিন ল্যাপটপে কাজ করতাম, চোখে অনেক ব্যথা হতো। এই চশমা পরার পর চোখের চাপ অনেক কমে গেছে। 
+          "সারাদিন ল্যাপটপে কাজ করতাম, চোখে অনেক ব্যথা হতো। এই চশমা পরার পর চোখের ব্যথা সম্পূর্ণ উঠে গেছে।
           পণ্যের মান চমৎকার এবং দাম সাশ্রয়ী।"
         </p>
         <div class="testimonial-card__author">
@@ -408,7 +394,7 @@
       <article class="testimonial-card reveal reveal-delay-1" role="listitem">
         <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
         <p class="testimonial-card__text">
-          "ডেলিভারি খুব দ্রুত ছিল, মাত্র ২ দিনে পেয়েছি। চশমার কোয়ালিটি অনেক ভালো, দেখতেও স্টাইলিশ। 
+          "ডেলিভারি খুব দ্রুত ছিল, মাত্র ২ দিনে পেয়েছি। চশমার কোয়ালিটি অনেক ভালো এবং ডিজাইনটাও চমৎকার।
           দাম বিবেচনায় সেরা কেনাকাটা।"
         </p>
         <div class="testimonial-card__author">
@@ -422,7 +408,7 @@
       <article class="testimonial-card reveal reveal-delay-2" role="listitem">
         <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
         <p class="testimonial-card__text">
-          "অফিসে ৮ ঘণ্টা স্ক্রিনের সামনে থাকি। এই চশমা ব্যবহার শুরুর পর থেকে মাথাব্যথা প্রায় নেই। 
+          "অফিসে ৮ ঘণ্টা স্ক্রিনের সামনে থাকি। এই চশমা ব্যবহার শুরুর পর থেকে মাথাব্যথা অনেক কমেছে।
           Highly recommended!"
         </p>
         <div class="testimonial-card__author">
@@ -489,8 +475,7 @@
           </div>
         </div>
         <p class="footer__desc">
-          আমরা বিশ্বাস করি সুস্থ চোখ = উৎপাদনশীল জীবন। তাই সর্বোচ্চ মানের Blue Cut চশমা 
-          সাশ্রয়ী মূল্যে পৌঁছে দিচ্ছি বাংলাদেশের প্রতিটি ঘরে।
+          আমরা বিশ্বাস করি সুস্থ চোখ = উৎপাদনশীল জীবন। তাই সর্বোচ্চ মানের Blue Cut চশমা সাশ্রয়ী মূল্যে পৌঁছে দিচ্ছি বাংলাদেশের প্রতিটি ঘরে।
         </p>
         <div class="footer__social">
           <!-- DEVELOPER: Replace # with actual social media links -->
@@ -581,7 +566,8 @@
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Vayrin Premium Ray-Ban Blue Cut Eyeglasses",
-  "description": "মোবাইল ও কম্পিউটারের ক্ষতিকর নীল আলো থেকে চোখকে রক্ষাকারী প্রিমিয়াম ব্লু কাট চশমা",
+  "description": "মোবাইল ও কম্পিউটারের ক্ষতিকর নীল আলো থেকে চোখকে রক্ষাকারী প্রিমিয়াম ব্লু কাট চশমা।",
+  "image": "https://vayrineyegear.com/assets/glasses-hero.svg",
   "brand": {
     "@type": "Brand",
     "name": "Vayrin Eye Gear"
@@ -610,7 +596,7 @@
   "@type": "Organization",
   "name": "Vayrin Eye Gear",
   "url": "https://vayrineyegear.com",
-  "logo": "https://vayrineyegear.com/assets/logo.png",
+  "logo": "https://vayrineyegear.com/assets/favicon.svg",
   "contactPoint": {
     "@type": "ContactPoint",
     "telephone": "+880-1930744595",
